@@ -1,0 +1,60 @@
+services:
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        ports:
+            - "5173:5173"
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        environment:
+            - NODE_ENV=development
+            - VITE_API_BASE_URL=http://localhost:5001
+        working_dir: /app
+        command: npm run dev -- --host
+        depends_on:
+            - backend
+        networks:
+            - nw
+
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        ports:
+            - "5001:5001"
+        volumes:
+            - ./backend:/app
+            - /app/node_modules
+        environment:
+            - NODE_ENV=development
+            - MONGO_URI=mongodb://mongo:27017/react_express_auth
+            - JWT_SECRET=your_jwt_secret
+            - UPLOADTHING_TOKEN=eyJhcGlLZXkiOiJza19saXZlX2U0N2E4MDE1NmEzYWY3MjI0NDllNjE4N2UwNDViM2MyNzFmNmM3NGYxNDViOGM4Mjc4NTZjNzdjZWQzNzVjNmYiLCJhcHBJZCI6IjNvcHgzZ3UwNzUiLCJyZWdpb25zIjpbInNlYTEiXX0=
+        working_dir: /app
+        command: npm run dev
+        depends_on:
+            - mongo
+        networks:
+            - nw
+    mongo:
+        image: mongo:latest
+        restart: always
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo_data:/data/db
+        environment:
+            # - MONGO_INITDB_ROOT_USERNAME=admin
+            # - MONGO_INITDB_ROOT_PASSWORD=secret
+            - MONGO_INITDB_DATABASE=react_express_auth
+        networks:
+            - nw
+
+volumes:
+    mongo_data:
+
+networks:
+    nw:
+        driver: bridge

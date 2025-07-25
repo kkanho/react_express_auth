@@ -1,0 +1,34 @@
+{
+    "name": "express-app",
+    "version": "1.0.0",
+    "description": "A simple Express.js application",
+    "main": "server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js"
+    },
+    "keywords": [
+        "express",
+        "node",
+        "web-server"
+    ],
+    "author": "Your Name",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.0",
+        "express": "^4.21.2",
+        "express-rate-limit": "^8.0.1",
+        "helmet": "^8.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.16.4",
+        "morgan": "^1.10.1",
+        "uploadthing": "^7.7.3"
+    },
+    "devDependencies": {
+        "@types/morgan": "^1.9.10",
+        "nodemon": "^3.1.10"
+    },
+    "type": "module"
+}
