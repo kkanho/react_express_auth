@@ -134,9 +134,9 @@ UPLOADTHING_TOKEN=your_uploadthing_token
 
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
-- `GET /api/users/profile/:id` - Get user profile
-- `PUT /api/users/profile/:id` - Update user profile
-- `GET /api/users/friends/:id` - Get user friends
+- `GET /api/users/:id` - Get a user profile
+- `POST /api/users/:id/friends` - Add a user as a friend
+- `GET /api/users/:id/friends` - Get all friends of a user
 
 ### Scripts
 

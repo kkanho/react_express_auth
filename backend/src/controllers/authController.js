@@ -1,6 +1,11 @@
 import User from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 
+/**
+ * POST /auth/register
+ * Register a new user with email, password, and optional profile details.
+ * Returns user ID on success.
+ */
 export const register = async (req, res) => {
     try {
         const { email, password, name, phone, profilePicUrl, company } = req.body
@@ -18,6 +23,11 @@ export const register = async (req, res) => {
     }
 }
 
+/**
+ * POST /auth/login
+ * Authenticate user with email and password.
+ * Returns JWT token on success.
+ */
 export const login = async (req, res) => {
     const { email, password } = req.body
 
