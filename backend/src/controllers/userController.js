@@ -66,11 +66,21 @@ export const listFriends = async (req, res) => {
     try {
         const user = await User
             .findById(req.params.id)
-            .populate('friends', 'profile.name profilePicUrl email')
+            .populate('friends', 'profile.name profile.profilePicUrl email')
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
-        return res.json(user.friends)
+
+        const friends = user.friends.map(friend => ({
+            _id: friend._id,
+            profile: {
+                name: friend.profile.name,
+                profilePicUrl: friend.profile.profilePicUrl || ''
+            },
+            email: friend.email
+        }))
+
+        return res.json(friends)
     } catch (err) {
         return res.status(500).json({ error: 'Server error' })
     }

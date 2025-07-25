@@ -15,7 +15,7 @@ export interface Profile {
         _id: string;
         profile: { 
             name: string; 
-            profilePicUrl: string 
+            profilePicUrl: string
         }; 
         email: string 
     }[]
