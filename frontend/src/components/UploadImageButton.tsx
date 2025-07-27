@@ -39,8 +39,34 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
+
+      // One file is expected for profile pictures
+      const file = files[0];
+
       try {
-        const res = await startUpload(Array.from(files));
+        // Convert all image to webp format
+        const imageBitmap = await createImageBitmap(file);
+        const canvas = document.createElement("canvas");
+        canvas.width = imageBitmap.width;
+        canvas.height = imageBitmap.height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("Failed to get canvas context");
+
+        ctx.drawImage(imageBitmap, 0, 0);
+
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve, "image/webp", 0.8)
+        );
+
+        if (!blob) throw new Error("Failed to convert image to webp");
+
+        const webpFile = new File([blob], file.name.replace(/\.\w+$/, ".webp"), {
+          type: "image/webp",
+        });
+
+        const res = await startUpload([webpFile]);
+        // const res = await startUpload(Array.from(files));
         if (onClientUploadComplete && res) {
           onClientUploadComplete(res);
         }
